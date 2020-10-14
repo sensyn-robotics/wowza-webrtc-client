@@ -5,7 +5,7 @@
 ## Install
 
 ```
-npm i wowza-webrtc-client -s # yarn add wowza-webrtc-client
+npm i @sensyn-robotics/wowza-webrtc-client -s # yarn add @sensyn-robotics/wowza-webrtc-client
 ```
 
 ## Usage
