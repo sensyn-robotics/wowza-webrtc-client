@@ -10,11 +10,11 @@
     "clean": "rm -fr dist",
     "build": "npm run clean && tsc -p tsconfig.json"
   },
-  "author": "Kittiphat S.",
+  "author": "Han Sen <s-han@sensyn-robotics.com>",
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/peatiscoding/wowza-webrtc-client"
+    "url": "git+https://github.com/sensyn-robotics/wowza-webrtc-client"
   },
   "devDependencies": {
     "typescript": "^3.8"
