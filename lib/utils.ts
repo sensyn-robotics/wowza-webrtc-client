@@ -81,6 +81,26 @@ export const getUserMedia = async (constraints: MediaStreamConstraints): Promise
 }
 
 /**
+ * Query user media stream from navigator object.
+ * 
+ * @param constraints 
+ */
+export const getDisplayMedia = async (constraints: MediaStreamConstraints): Promise<MediaStream> => {
+  // https://github.com/microsoft/TypeScript/issues/33232
+  const mediaDevices = navigator.mediaDevices as any
+  if (mediaDevices && mediaDevices.getDisplayMedia) {
+    try {
+      return await mediaDevices.getDisplayMedia(constraints)
+    } catch (error) {
+      cnsl.error('Failed to getUserMedia(', error, ')')
+      throw error
+    }
+  }
+  
+  throw new Error('Your browser does not support getDisplayMedia API.')
+}
+
+/**
  * Query browser for Camera device based on given constraints
  * 
  * @param constraints 

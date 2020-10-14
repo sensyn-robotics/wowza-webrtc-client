@@ -36,16 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebRTCPublisher = void 0;
+var enum_1 = require("./../enum");
 var SDPMessageProcessor_1 = require("./SDPMessageProcessor");
 var lodash_1 = require("lodash");
 var utils_1 = require("../utils");
 var logger_1 = require("../logger");
 var WebRTCPublisher = /** @class */ (function () {
-    function WebRTCPublisher(config, mediaStreamConstraints, enhanceMode, codecMode, statusListener) {
+    function WebRTCPublisher(config, mediaStreamConstraints, enhanceMode, codecMode, streamingType, statusListener) {
         var _this = this;
+        if (streamingType === void 0) { streamingType = enum_1.StreamingType.USER_MEDIA; }
         this.config = config;
         this.enhanceMode = enhanceMode;
         this.codecMode = codecMode;
+        this.streamingType = streamingType;
         this.statusListener = statusListener;
         this.userAgent = navigator.userAgent;
         this.currentContraints = {
@@ -77,6 +81,9 @@ var WebRTCPublisher = /** @class */ (function () {
             utils_1.cnsl.error('[Publisher] Unable to locate Camera', error);
         });
     }
+    WebRTCPublisher.prototype.reconfig = function (config) {
+        this.config = config;
+    };
     Object.defineProperty(WebRTCPublisher.prototype, "isHolding", {
         /**
          * Holding = disable microphone only.
@@ -98,7 +105,7 @@ var WebRTCPublisher = /** @class */ (function () {
             lodash_1.forEach(this.localStream.getAudioTracks(), function (track) { track.enabled = !value; });
             this.statusListener && this.statusListener();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "isCameraMuted", {
@@ -109,56 +116,56 @@ var WebRTCPublisher = /** @class */ (function () {
             this.statusCameraMuted = muted;
             this.statusListener && this.statusListener();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "isPublishing", {
         get: function () {
             return !!this.peerConnection;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "isPreviewEnabled", {
         get: function () {
             return !!this.videoElement && (!!this.videoElement.src || !!this.videoElement.srcObject);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "streamSourceConstraints", {
         get: function () {
             return this.currentContraints;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "lastError", {
         get: function () {
             return this._lastError;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "rtcPeerConnectionState", {
         get: function () {
             return this.peerConnection && this.peerConnection.connectionState;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "rtcSignalingState", {
         get: function () {
             return this.peerConnection && this.peerConnection.signalingState;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPublisher.prototype, "rtcIceConnectionState", {
         get: function () {
             return this.peerConnection && this.peerConnection.iceConnectionState;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     WebRTCPublisher.prototype.switchStream = function (constraints, force) {
@@ -222,11 +229,20 @@ var WebRTCPublisher = /** @class */ (function () {
             var stream, peerConnection;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, utils_1.getUserMedia(constraints)
-                        // Camera is not muted. (Camera is available.)
-                    ];
+                    case 0:
+                        if (!(this.streamingType == enum_1.StreamingType.USER_MEDIA)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, utils_1.getUserMedia(constraints)];
                     case 1:
                         stream = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 2:
+                        if (!(this.streamingType == enum_1.StreamingType.DISPLAY_MEDIA)) return [3 /*break*/, 4];
+                        return [4 /*yield*/, utils_1.getDisplayMedia(constraints)];
+                    case 3:
+                        stream = _a.sent();
+                        return [3 /*break*/, 5];
+                    case 4: throw new Error("Unknown streaming type");
+                    case 5:
                         // Camera is not muted. (Camera is available.)
                         this.isCameraMuted = false;
                         // If videoElement exists - attach it.

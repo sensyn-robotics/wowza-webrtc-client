@@ -1,8 +1,10 @@
 import { WebRTCConfiguration } from '../interface';
+import { StreamingType } from './../enum';
 export declare class WebRTCPublisher {
     private config;
     enhanceMode: 'auto' | boolean;
     codecMode: 'VPX' | 'H264';
+    private streamingType;
     private statusListener?;
     private userAgent;
     private localStream?;
@@ -13,6 +15,7 @@ export declare class WebRTCPublisher {
     private videoElement?;
     private statusCameraMuted;
     private _lastError?;
+    reconfig(config: WebRTCConfiguration): void;
     /**
      * Holding = disable microphone only.
      */
@@ -27,7 +30,7 @@ export declare class WebRTCPublisher {
     get rtcPeerConnectionState(): RTCPeerConnectionState | undefined;
     get rtcSignalingState(): RTCSignalingState | undefined;
     get rtcIceConnectionState(): RTCIceConnectionState | undefined;
-    constructor(config: WebRTCConfiguration, mediaStreamConstraints: MediaStreamConstraints, enhanceMode: 'auto' | boolean, codecMode: 'VPX' | 'H264', statusListener?: (() => void) | undefined);
+    constructor(config: WebRTCConfiguration, mediaStreamConstraints: MediaStreamConstraints, enhanceMode: 'auto' | boolean, codecMode: 'VPX' | 'H264', streamingType?: StreamingType, statusListener?: (() => void) | undefined);
     switchStream(constraints: MediaStreamConstraints, force?: boolean): Promise<void>;
     /**
      * Attach user media to configured VideoElement

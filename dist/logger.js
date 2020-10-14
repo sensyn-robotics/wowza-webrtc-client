@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Logger = void 0;
 var lodash_1 = require("lodash");
 var utils_1 = require("./utils");
 var Logger = /** @class */ (function () {

@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createWebSocket = exports.queryForCamera = exports.getDisplayMedia = exports.getUserMedia = exports.supportGetUserMedia = exports.cancellable = exports.cnsl = exports.isMobileBrowser = void 0;
 exports.isMobileBrowser = function () {
     // Check my self as agent
     var a = navigator.userAgent || navigator.vendor || window.opera;
@@ -125,6 +126,31 @@ exports.getUserMedia = function (constraints) { return __awaiter(void 0, void 0,
                         reject(new Error('Your browser does not support getUserMedia API.'));
                     }
                 })];
+        }
+    });
+}); };
+/**
+ * Query user media stream from navigator object.
+ *
+ * @param constraints
+ */
+exports.getDisplayMedia = function (constraints) { return __awaiter(void 0, void 0, void 0, function () {
+    var mediaDevices, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                mediaDevices = navigator.mediaDevices;
+                if (!(mediaDevices && mediaDevices.getDisplayMedia)) return [3 /*break*/, 4];
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, mediaDevices.getDisplayMedia(constraints)];
+            case 2: return [2 /*return*/, _a.sent()];
+            case 3:
+                error_2 = _a.sent();
+                exports.cnsl.error('Failed to getUserMedia(', error_2, ')');
+                throw error_2;
+            case 4: throw new Error('Your browser does not support getDisplayMedia API.');
         }
     });
 }); };
