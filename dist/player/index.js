@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.WebRTCPlayer = void 0;
 var lodash_1 = require("lodash");
 var utils_1 = require("../utils");
 var WebRTCPlayer = /** @class */ (function () {
@@ -84,14 +85,14 @@ var WebRTCPlayer = /** @class */ (function () {
             this.hostElement.muted = value;
             this._reportStatus();
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(WebRTCPlayer.prototype, "isPlaying", {
         get: function () {
             return !!this.peerConnection;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**

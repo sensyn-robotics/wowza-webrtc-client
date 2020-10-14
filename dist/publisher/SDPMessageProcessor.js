@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SDPMessageProcessor = void 0;
 var utils_1 = require("../utils");
 var SDPMessageProcessor = /** @class */ (function () {
     function SDPMessageProcessor(videoMode, audioMode) {

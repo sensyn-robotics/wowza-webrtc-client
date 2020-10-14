@@ -21,6 +21,12 @@ export declare const supportGetUserMedia: () => boolean;
  */
 export declare const getUserMedia: (constraints: MediaStreamConstraints) => Promise<MediaStream>;
 /**
+ * Query user media stream from navigator object.
+ *
+ * @param constraints
+ */
+export declare const getDisplayMedia: (constraints: MediaStreamConstraints) => Promise<MediaStream>;
+/**
  * Query browser for Camera device based on given constraints
  *
  * @param constraints
