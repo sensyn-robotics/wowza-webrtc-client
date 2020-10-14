@@ -1,7 +1,8 @@
 import { WebRTCConfiguration } from '../interface'
+import { StreamingType } from './../enum'
 import { SDPMessageProcessor } from './SDPMessageProcessor'
 import { forEach } from 'lodash'
-import { supportGetUserMedia, queryForCamera, getUserMedia, createWebSocket, cnsl } from '../utils'
+import { supportGetUserMedia, queryForCamera, getDisplayMedia, getUserMedia, createWebSocket, cnsl } from '../utils'
 import { Logger } from '../logger';
 
 export class WebRTCPublisher {
@@ -83,7 +84,7 @@ export class WebRTCPublisher {
     return this.peerConnection && this.peerConnection.iceConnectionState
   }
 
-  constructor(private config: WebRTCConfiguration, mediaStreamConstraints: MediaStreamConstraints, public enhanceMode: 'auto'|boolean, public codecMode: 'VPX'|'H264', private statusListener?: () => void) {
+  constructor(private config: WebRTCConfiguration, mediaStreamConstraints: MediaStreamConstraints, public enhanceMode: 'auto'|boolean, public codecMode: 'VPX'|'H264', private streamingType: StreamingType = StreamingType.USER_MEDIA, private statusListener?: () => void) {
     // Validate if browser support getUserMedia or not?
     if (!supportGetUserMedia()) {
       throw new Error('Your browser does not support getUserMedia API')
@@ -146,8 +147,18 @@ export class WebRTCPublisher {
   }
   
   private async _claimMedia(constraints: MediaStreamConstraints): Promise<MediaStream> {
+    let stream: MediaStream
+
     // Try getting user media.
-    const stream = await getUserMedia(constraints)
+    if(this.streamingType == StreamingType.USER_MEDIA){
+      stream = await getUserMedia(constraints)
+    }
+    else if(this.streamingType == StreamingType.DISPLAY_MEDIA){
+      stream = await getDisplayMedia(constraints)
+    }
+    else{
+      throw new Error("Unknown streaming type")
+    }
 
     // Camera is not muted. (Camera is available.)
     this.isCameraMuted = false
