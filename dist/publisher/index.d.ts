@@ -59,4 +59,5 @@ export declare class WebRTCPublisher {
     private _reportError;
     disconnect(): Promise<void>;
     private _stopStream;
+    getStreamTracks(type: 'video' | 'audio' | 'all'): MediaStreamTrack[];
 }

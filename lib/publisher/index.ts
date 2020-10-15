@@ -503,4 +503,18 @@ export class WebRTCPublisher {
       cnsl.log('[Publisher] Unbind local stream')
     }
   }
+
+  public getStreamTracks(type: 'video' | 'audio' | 'all'): MediaStreamTrack[]{
+    if(!this.localStream) {
+      throw new Error("No stream defined")
+    }
+    switch(type){
+      case 'video':
+        return this.localStream.getVideoTracks()
+      case 'audio':
+        return this.localStream.getAudioTracks()
+      case 'all':
+        return this.localStream.getTracks()
+    }
+  }
 }
