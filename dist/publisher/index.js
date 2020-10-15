@@ -614,6 +614,19 @@ var WebRTCPublisher = /** @class */ (function () {
             utils_1.cnsl.log('[Publisher] Unbind local stream');
         }
     };
+    WebRTCPublisher.prototype.getStreamTracks = function (type) {
+        if (!this.localStream) {
+            throw new Error("No stream defined");
+        }
+        switch (type) {
+            case 'video':
+                return this.localStream.getVideoTracks();
+            case 'audio':
+                return this.localStream.getAudioTracks();
+            case 'all':
+                return this.localStream.getTracks();
+        }
+    };
     return WebRTCPublisher;
 }());
 exports.WebRTCPublisher = WebRTCPublisher;
