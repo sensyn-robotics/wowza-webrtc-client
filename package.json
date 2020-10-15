@@ -1,6 +1,6 @@
 {
   "name": "@sensyn-robotics/wowza-webrtc-client",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "WoWza WebRTC Player/Client.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
